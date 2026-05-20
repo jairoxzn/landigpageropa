@@ -23,7 +23,7 @@ export default async function AdminPromotionsPage() {
               className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary to-pink-500 text-white p-6 shadow-card"
             >
               <div className="absolute -top-12 -right-8 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
-              <Badge variant="dark" className="bg-black/30 backdrop-blur mb-4">
+              <Badge variant="outline" className="bg-black/30 backdrop-blur border-white/20 text-white mb-4">
                 {p.type}
               </Badge>
               <h3 className="font-display text-2xl font-bold mb-2">{p.name}</h3>

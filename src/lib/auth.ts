@@ -1,20 +1,14 @@
-import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
+import {
+  signSession,
+  verifySession,
+  SESSION_COOKIE,
+  type SessionPayload
+} from "./auth-edge";
 
-const SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "lucia-jeans-dev-secret-change-me-please-32+chars"
-);
-const COOKIE = "lucia_session";
-const EXPIRES = "7d";
-
-export interface SessionPayload {
-  sub: string;
-  email: string;
-  role: string;
-  name: string;
-  [key: string]: unknown;
-}
+export { signSession, verifySession, SESSION_COOKIE };
+export type { SessionPayload };
 
 export async function hashPassword(password: string) {
   return bcrypt.hash(password, 10);
@@ -24,28 +18,8 @@ export async function verifyPassword(password: string, hash: string) {
   return bcrypt.compare(password, hash);
 }
 
-export async function signSession(payload: SessionPayload) {
-  return new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setIssuer("lucia-jeans")
-    .setExpirationTime(EXPIRES)
-    .sign(SECRET);
-}
-
-export async function verifySession(token: string): Promise<SessionPayload | null> {
-  try {
-    const { payload } = await jwtVerify(token, SECRET, {
-      issuer: "lucia-jeans"
-    });
-    return payload as SessionPayload;
-  } catch {
-    return null;
-  }
-}
-
 export async function setSessionCookie(token: string) {
-  cookies().set(COOKIE, token, {
+  cookies().set(SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -55,13 +29,11 @@ export async function setSessionCookie(token: string) {
 }
 
 export async function clearSessionCookie() {
-  cookies().delete(COOKIE);
+  cookies().delete(SESSION_COOKIE);
 }
 
 export async function getSession(): Promise<SessionPayload | null> {
-  const token = cookies().get(COOKIE)?.value;
+  const token = cookies().get(SESSION_COOKIE)?.value;
   if (!token) return null;
   return verifySession(token);
 }
-
-export const SESSION_COOKIE = COOKIE;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifySession, SESSION_COOKIE } from "@/lib/auth";
+import { verifySession, SESSION_COOKIE } from "@/lib/auth-edge";
 
 /**
  * Protege /admin/*. Permite /admin/login para entrar.
