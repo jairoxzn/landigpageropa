@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Lucia Jeans — Design Tokens
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* Light theme */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+
+    --primary: 332 100% 65%;      /* #ff4fa3 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 332 100% 96%;       /* very soft pink */
+    --accent-foreground: 332 80% 30%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 332 100% 65%;
+
+    --radius: 0.85rem;
+  }
+
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 332 100% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 332 50% 18%;
+    --accent-foreground: 332 100% 90%;
+
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 332 100% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+  ::selection {
+    background: hsl(var(--primary));
+    color: white;
+  }
+}
+
+@layer components {
+  .container-lucia {
+    @apply container mx-auto px-5 lg:px-8 max-w-7xl;
+  }
+
+  .glass {
+    @apply bg-white/70 dark:bg-black/40 backdrop-blur-xl border border-white/30 dark:border-white/10;
+  }
+
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary;
+  }
+
+  .heading-xl {
+    @apply font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.05];
+  }
+  .heading-lg {
+    @apply font-display text-3xl md:text-5xl font-bold tracking-tight leading-[1.1];
+  }
+  .heading-md {
+    @apply font-display text-2xl md:text-3xl font-bold tracking-tight;
+  }
+
+  /* Cards */
+  .card-premium {
+    @apply relative rounded-2xl bg-white dark:bg-card border border-border/60 shadow-card overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-soft;
+  }
+
+  /* Shimmer skeleton */
+  .skeleton {
+    @apply relative overflow-hidden bg-muted rounded-md;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 bg-shine animate-shimmer;
+    transform: translateX(-100%);
+  }
+
+  /* Marquee */
+  .marquee {
+    @apply flex w-max animate-marquee;
+  }
+
+  /* Subtle background grain */
+  .bg-grain {
+    background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+
+  /* Pretty scrollbar (admin) */
+  .scrollbar-pretty::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scrollbar-pretty::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.4);
+    border-radius: 8px;
+  }
+  .scrollbar-pretty::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Premium animated underline */
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute left-0 -bottom-1 h-[2px] w-0 bg-primary transition-all duration-300;
+  }
+  .link-underline:hover::after { @apply w-full; }
+}
