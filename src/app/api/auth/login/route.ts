@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import {
-  loginSchema
-} from "@/lib/validations";
+import { loginSchema } from "@/lib/validations";
 import {
   setSessionCookie,
   signSession,
@@ -59,10 +58,33 @@ export async function POST(req: NextRequest) {
         role: user.role
       }
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("login error", err);
+
+    // DB no inicializada (tablas no existen)
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2021"
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "La base de datos no está inicializada. Ejecuta: npm run db:push && npm run db:admin"
+        },
+        { status: 503 }
+      );
+    }
+
+    // Error de conexión a la DB
+    if (err instanceof Prisma.PrismaClientInitializationError) {
+      return NextResponse.json(
+        { error: "No se pudo conectar a la base de datos. Revisa DATABASE_URL en .env" },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Error interno" },
+      { error: "Error interno del servidor" },
       { status: 500 }
     );
   }
