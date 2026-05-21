@@ -1,69 +1,58 @@
 import { prisma } from "@/lib/prisma";
 import { AdminTopbar } from "@/components/admin/topbar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { StoreProfileForm } from "@/components/admin/store-profile-form";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
   const store = await safe(() => prisma.storeProfile.findFirst(), null);
 
+  const initial = {
+    storeName: store?.storeName || "Lucia Jeans",
+    tagline: store?.tagline || "",
+    email: store?.email || "",
+    phone: store?.phone || "",
+    address: store?.address || "",
+    city: store?.city || "",
+    country: store?.country || "Perú",
+    currency: store?.currency || "PEN",
+    shippingNote: store?.shippingNote || "",
+    about: store?.about || ""
+  };
+
   return (
     <>
       <AdminTopbar title="Configuración" />
-      <main className="p-6 lg:p-8 space-y-6 max-w-3xl">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-5">
-          <h2 className="font-display text-lg font-semibold">Información general</h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label>Nombre de la tienda</Label>
-              <Input defaultValue={store?.storeName || "Lucia Jeans"} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Tagline</Label>
-              <Input defaultValue={store?.tagline || ""} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Email contacto</Label>
-              <Input defaultValue={store?.email || ""} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Teléfono</Label>
-              <Input defaultValue={store?.phone || ""} />
-            </div>
-            <div className="space-y-1.5 sm:col-span-2">
-              <Label>Dirección</Label>
-              <Input defaultValue={store?.address || ""} />
-            </div>
-            <div className="space-y-1.5 sm:col-span-2">
-              <Label>Acerca de</Label>
-              <Textarea rows={4} defaultValue={store?.about || ""} />
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-5">
-          <h2 className="font-display text-lg font-semibold">Moneda y envío</h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label>Moneda</Label>
-              <Input defaultValue={store?.currency || "PEN"} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Nota de envío</Label>
-              <Input defaultValue={store?.shippingNote || "Envío gratis > S/199"} />
-            </div>
-          </div>
-        </section>
-
-        <Button>Guardar cambios</Button>
+      <main className="p-6 lg:p-8">
+        <StoreProfileForm
+          initial={initial}
+          sections={[
+            {
+              title: "Información general",
+              fields: [
+                { key: "storeName", label: "Nombre de la tienda" },
+                { key: "tagline", label: "Tagline" },
+                { key: "email", label: "Email de contacto", placeholder: "hola@luciajeans.com" },
+                { key: "phone", label: "Teléfono", placeholder: "+51 999 999 999" },
+                { key: "address", label: "Dirección" },
+                { key: "city", label: "Ciudad" },
+                { key: "country", label: "País" },
+                { key: "about", label: "Acerca de la tienda", multiline: true }
+              ]
+            },
+            {
+              title: "Moneda y envío",
+              fields: [
+                { key: "currency", label: "Moneda (ISO)", placeholder: "PEN" },
+                { key: "shippingNote", label: "Nota de envío", placeholder: "Envío gratis > S/199" }
+              ]
+            }
+          ]}
+        />
       </main>
     </>
   );
 }
-
 async function safe<T>(fn: () => Promise<T>, fb: T): Promise<T> {
   try { return await fn(); } catch { return fb; }
 }

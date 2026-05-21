@@ -37,6 +37,70 @@ export const categorySchema = z.object({
 });
 export type CategoryInput = z.infer<typeof categorySchema>;
 
+export const bannerSchema = z.object({
+  title: z.string().min(2),
+  subtitle: z.string().optional().nullable(),
+  imageUrl: z.string().url(),
+  mobileUrl: z.string().url().optional().nullable(),
+  ctaLabel: z.string().optional().nullable(),
+  ctaUrl: z.string().optional().nullable(),
+  position: z.enum(["HERO", "TOP_BAR", "CATEGORY", "CHECKOUT", "FOOTER"]).default("HERO"),
+  order: z.coerce.number().int().default(0),
+  isActive: z.boolean().default(true)
+});
+export type BannerInput = z.infer<typeof bannerSchema>;
+
+export const promotionSchema = z.object({
+  name: z.string().min(2),
+  code: z.string().optional().nullable(),
+  type: z.enum(["PERCENT", "FIXED", "BUY_X_GET_Y", "FREE_SHIPPING"]).default("PERCENT"),
+  value: z.coerce.number().min(0),
+  description: z.string().optional().nullable(),
+  bannerUrl: z.string().url().optional().nullable(),
+  startsAt: z.string(),
+  endsAt: z.string(),
+  isActive: z.boolean().default(true)
+});
+export type PromotionInput = z.infer<typeof promotionSchema>;
+
+export const orderStatusSchema = z.object({
+  status: z.enum([
+    "PENDING",
+    "CONFIRMED",
+    "PAID",
+    "SHIPPED",
+    "DELIVERED",
+    "CANCELLED",
+    "REFUNDED"
+  ]),
+  trackingCode: z.string().optional().nullable(),
+  notes: z.string().optional().nullable()
+});
+
+export const storeProfileSchema = z.object({
+  storeName: z.string().min(1),
+  tagline: z.string().optional().nullable(),
+  logoUrl: z.string().url().optional().nullable(),
+  faviconUrl: z.string().url().optional().nullable(),
+  email: z.string().email().optional().nullable().or(z.literal("")),
+  phone: z.string().optional().nullable(),
+  whatsapp: z.string().optional().nullable(),
+  instagram: z.string().optional().nullable(),
+  facebook: z.string().optional().nullable(),
+  tiktok: z.string().optional().nullable(),
+  address: z.string().optional().nullable(),
+  city: z.string().optional().nullable(),
+  country: z.string().optional().nullable(),
+  currency: z.string().default("PEN"),
+  shippingNote: z.string().optional().nullable(),
+  about: z.string().optional().nullable()
+});
+
+export const inventoryUpdateSchema = z.object({
+  stock: z.coerce.number().int().min(0),
+  lowStockAt: z.coerce.number().int().min(0).optional()
+});
+
 export const orderSchema = z.object({
   customer: z.object({
     fullName: z.string().min(2),

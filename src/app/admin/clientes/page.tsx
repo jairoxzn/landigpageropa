@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { AdminTopbar } from "@/components/admin/topbar";
 import { formatPrice, formatDate } from "@/lib/utils";
@@ -36,17 +37,17 @@ export default async function AdminCustomersPage() {
                   </tr>
                 ) : (
                   customers.map((c) => (
-                    <tr key={c.id} className="hover:bg-muted/30">
+                    <tr key={c.id} className="hover:bg-muted/30 cursor-pointer">
                       <td className="px-4 py-3">
-                        <div className="flex items-center gap-3">
+                        <Link href={`/admin/clientes/${c.id}`} className="flex items-center gap-3">
                           <div className="h-9 w-9 rounded-full bg-primary/15 text-primary grid place-items-center font-semibold text-sm">
                             {c.fullName.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <p className="font-medium">{c.fullName}</p>
+                            <p className="font-medium link-underline">{c.fullName}</p>
                             <p className="text-xs text-muted-foreground">{c.email || "—"}</p>
                           </div>
-                        </div>
+                        </Link>
                       </td>
                       <td className="px-4 py-3">{c.phone}</td>
                       <td className="px-4 py-3">{c.ordersCount}</td>
