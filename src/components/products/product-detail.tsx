@@ -4,7 +4,6 @@ import * as React from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import {
-  MessageCircle,
   ShoppingBag,
   Share2,
   Heart,
@@ -19,6 +18,8 @@ import { Separator } from "@/components/ui/separator";
 import { cn, formatPrice, discountPercent } from "@/lib/utils";
 import { whatsappProductInquiry } from "@/lib/whatsapp";
 import { useCart } from "@/store/cart-store";
+import { WhatsappIcon } from "@/components/common/whatsapp-icon";
+import { SizeGuideDialog } from "./size-guide-dialog";
 
 export interface ProductDetailData {
   id: string;
@@ -45,6 +46,7 @@ export function ProductDetail({ product }: { product: ProductDetailData }) {
   const [color, setColor] = React.useState<string | undefined>(product.colors[0]);
   const [qty, setQty] = React.useState(1);
   const [liked, setLiked] = React.useState(false);
+  const [sizeGuideOpen, setSizeGuideOpen] = React.useState(false);
   const add = useCart((s) => s.add);
   const off = discountPercent(product.price, product.compareAt ?? undefined);
 
@@ -160,7 +162,13 @@ export function ProductDetail({ product }: { product: ProductDetailData }) {
             <div className="mb-5">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-xs uppercase tracking-wider font-semibold">Talla</p>
-                <button className="text-xs text-primary hover:underline">Guía de tallas</button>
+                <button
+                  type="button"
+                  onClick={() => setSizeGuideOpen(true)}
+                  className="text-xs text-primary hover:underline"
+                >
+                  Guía de tallas
+                </button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.sizes.map((s) => (
@@ -252,7 +260,7 @@ export function ProductDetail({ product }: { product: ProductDetailData }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <MessageCircle className="h-4 w-4" />
+                <WhatsappIcon size={16} />
                 Consultar por WhatsApp
               </a>
             </Button>
@@ -289,6 +297,8 @@ export function ProductDetail({ product }: { product: ProductDetailData }) {
           {product.description}
         </p>
       </section>
+
+      <SizeGuideDialog open={sizeGuideOpen} onOpenChange={setSizeGuideOpen} />
     </div>
   );
 }

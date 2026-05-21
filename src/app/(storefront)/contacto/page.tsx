@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { MessageCircle, Mail, Phone, MapPin, Instagram, Facebook } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Facebook } from "lucide-react";
+import { WhatsappIcon } from "@/components/common/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -55,7 +56,7 @@ export default function ContactoPage() {
         <div className="flex flex-wrap gap-2">
           <Button asChild variant="whatsapp">
             <a href={whatsappGenericInquiry()} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="h-4 w-4" /> WhatsApp
+              <WhatsappIcon size={16} /> WhatsApp
             </a>
           </Button>
           <Button asChild variant="outline">

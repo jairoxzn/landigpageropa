@@ -4,7 +4,8 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
-import { ShoppingBag, MessageCircle, Share2 } from "lucide-react";
+import { ShoppingBag, Share2 } from "lucide-react";
+import { WhatsappIcon } from "@/components/common/whatsapp-icon";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +18,7 @@ import { cn, formatPrice, discountPercent } from "@/lib/utils";
 import { whatsappProductInquiry } from "@/lib/whatsapp";
 import { useCart } from "@/store/cart-store";
 import type { ProductCardData } from "./product-card";
+import { SizeGuideDialog } from "./size-guide-dialog";
 
 interface Props {
   product: ProductCardData;
@@ -28,6 +30,7 @@ export function QuickView({ product, open, onOpenChange }: Props) {
   const [size, setSize] = React.useState<string | undefined>(product.sizes?.[0]);
   const [color, setColor] = React.useState<string | undefined>(product.colors?.[0]);
   const [qty, setQty] = React.useState(1);
+  const [sizeGuideOpen, setSizeGuideOpen] = React.useState(false);
   const addToCart = useCart((s) => s.add);
   const off = discountPercent(product.price, product.compareAt ?? undefined);
 
@@ -103,9 +106,18 @@ export function QuickView({ product, open, onOpenChange }: Props) {
             {/* Sizes */}
             {product.sizes && product.sizes.length > 0 && (
               <div className="mb-5">
-                <p className="text-xs uppercase tracking-wider font-semibold text-muted-foreground mb-2">
-                  Talla
-                </p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
+                    Talla
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSizeGuideOpen(true)}
+                    className="text-xs text-primary hover:underline"
+                  >
+                    Guía de tallas
+                  </button>
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {product.sizes.map((s) => (
                     <button
@@ -184,7 +196,7 @@ export function QuickView({ product, open, onOpenChange }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <MessageCircle className="h-4 w-4" /> Consultar
+                    <WhatsappIcon size={16} /> Consultar
                   </a>
                 </Button>
                 <Button variant="outline" size="default" onClick={handleShare}>
@@ -201,6 +213,7 @@ export function QuickView({ product, open, onOpenChange }: Props) {
           </div>
         </div>
       </DialogContent>
+      <SizeGuideDialog open={sizeGuideOpen} onOpenChange={setSizeGuideOpen} />
     </Dialog>
   );
 }

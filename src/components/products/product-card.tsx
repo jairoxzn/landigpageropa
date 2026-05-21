@@ -4,11 +4,12 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Eye, Heart, Share2, MessageCircle } from "lucide-react";
+import { Eye, Heart, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatPrice, discountPercent } from "@/lib/utils";
 import { whatsappProductInquiry } from "@/lib/whatsapp";
+import { WhatsappIcon } from "@/components/common/whatsapp-icon";
 import { QuickView } from "./quick-view";
 
 export interface ProductCardData {
@@ -171,7 +172,7 @@ export function ProductCard({ product, className, priority = false }: Props) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <MessageCircle className="h-4 w-4" /> Consultar
+              <WhatsappIcon size={16} /> Consultar
             </a>
           </Button>
         </div>

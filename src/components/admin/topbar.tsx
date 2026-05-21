@@ -1,10 +1,11 @@
 "use client";
 
-import { Bell, Search, ExternalLink } from "lucide-react";
+import { Search, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/common/theme-toggle";
+import { NotificationsBell } from "./notifications-bell";
 
 export function AdminTopbar({ title }: { title?: string }) {
   return (
@@ -20,9 +21,7 @@ export function AdminTopbar({ title }: { title?: string }) {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Buscar…" className="pl-9 h-10 rounded-full" />
           </div>
-          <Button variant="ghost" size="icon" aria-label="Notificaciones">
-            <Bell className="h-5 w-5" />
-          </Button>
+          <NotificationsBell />
           <ThemeToggle />
           <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
             <Link href="/" target="_blank">

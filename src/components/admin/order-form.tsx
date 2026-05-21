@@ -4,7 +4,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
-import { Loader2, Plus, Save, Trash2, MessageCircle } from "lucide-react";
+import { Loader2, Plus, Save, Trash2 } from "lucide-react";
+import { WhatsappIcon } from "@/components/common/whatsapp-icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -330,7 +331,7 @@ export function OrderForm({ products }: { products: AdminProductOption[] }) {
             disabled={loading}
             onClick={(e) => submit(e as any, true)}
           >
-            <MessageCircle className="h-4 w-4" />
+            <WhatsappIcon size={16} />
             Crear y enviar WhatsApp
           </Button>
         </div>

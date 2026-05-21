@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { toast } from "sonner";
-import { Loader2, MessageCircle, ShieldCheck, Truck } from "lucide-react";
+import { Loader2, ShieldCheck, Truck } from "lucide-react";
+import { WhatsappIcon } from "./whatsapp-icon";
 import {
   Dialog,
   DialogContent,
@@ -165,7 +166,7 @@ export function CheckoutDialog({ open, onOpenChange }: Props) {
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <MessageCircle className="h-4 w-4" />
+                <WhatsappIcon size={16} />
               )}
               Confirmar y enviar por WhatsApp
             </Button>

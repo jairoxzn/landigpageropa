@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MessageCircle, Mail, Phone, MapPin, ArrowLeft } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowLeft } from "lucide-react";
+import { WhatsappIcon } from "@/components/common/whatsapp-icon";
 import { prisma } from "@/lib/prisma";
 import { AdminTopbar } from "@/components/admin/topbar";
 import { Button } from "@/components/ui/button";
@@ -115,7 +116,7 @@ export default async function OrderDetailPage({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MessageCircle className="h-4 w-4" /> Escribir por WhatsApp
+                  <WhatsappIcon size={16} /> Escribir por WhatsApp
                 </a>
               </Button>
             </div>

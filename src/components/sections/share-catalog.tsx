@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle, Instagram, Facebook, Share2 } from "lucide-react";
+import { Instagram, Facebook, Share2 } from "lucide-react";
+import { WhatsappIcon } from "@/components/common/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 import { whatsappCatalogShare } from "@/lib/whatsapp";
 
@@ -33,7 +34,7 @@ export function ShareCatalog() {
             <div className="flex flex-wrap justify-center gap-3">
               <Button asChild variant="whatsapp" size="lg">
                 <a href={whatsappCatalogShare()} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-4 w-4" /> WhatsApp
+                  <WhatsappIcon size={16} /> WhatsApp
                 </a>
               </Button>
               <Button asChild variant="default" size="lg">
