@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { Plus } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { AdminTopbar } from "@/components/admin/topbar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { formatDate, formatPrice } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +32,14 @@ export default async function AdminOrdersPage() {
     <>
       <AdminTopbar title="Pedidos" />
       <main className="p-6 lg:p-8">
+        <div className="flex items-center justify-between mb-6">
+          <p className="text-sm text-muted-foreground">{orders.length} pedidos</p>
+          <Button asChild>
+            <Link href="/admin/pedidos/nuevo">
+              <Plus className="h-4 w-4" /> Nuevo pedido
+            </Link>
+          </Button>
+        </div>
         <div className="rounded-2xl border border-border bg-card shadow-card overflow-hidden">
           <div className="overflow-x-auto scrollbar-pretty">
             <table className="w-full text-sm">
